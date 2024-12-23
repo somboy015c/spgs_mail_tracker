@@ -135,7 +135,7 @@ body {
 
 .right-section {
     flex: 1;
-    background: url('https://github.com/somboy015c/spgs_mail_tracker/blob/main/DSC_0177.JPG');
+    background: url(DSC_0177.JPG);
     background-size: cover; /* Ensures the image covers the whole section */
     background-position: center; /* Centers the background image */
     background-blend-mode: soft-light;
