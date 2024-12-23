@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPGS-MTS Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+    <div class="container">
+        <div class="left-section">
+            <header class="section-header">
+                <img src="logo-spgsmt-main.png" alt="Logo" class="header-logo" />
+            </header>
+            <div class="slider">
+                <div class="slides">
+                    <div class="slide">
+                        <h2>Real-Time Notifications</h2>
+                        <img src="notification.png" alt="Onboarding 1">
+                        <p>Receive instant alerts whenever a file moves. Stay informed about the exact location of your documents, and get notified immediately if they leave the university premises.<p>
+                    </div>
+                    <div class="slide">
+                        <h2>Track Files Across All Offices</h2>
+                        <img src="file_tracker.png" alt="Onboarding 2">
+                        <p>Keep track of all file movements across the SPGS offices. Ensure that every document is accounted for, from one office to another, for better visibility and control.<p>
+                    </div>
+                    <div class="slide">
+                        <h2>Efficient File Management</h2>
+                        <img src="eficient_files.png" alt="Onboarding 3">
+                        <p>Eliminate confusion and manual tracking. Streamline file movements with an automated system that allows for easy access and quick retrieval, ensuring that your files are always in the right place.<p>
+                    </div>
+                </div>
+                <div class="dots">
+                    <span class="dot" onclick="currentSlide(1)"></span>
+                    <span class="dot" onclick="currentSlide(2)"></span>
+                    <span class="dot" onclick="currentSlide(3)"></span>
+                </div>
+            </div>
+        </div>
+        <div class="right-section backimage">
+            <div class="logo">
+                <img src="logo-spgsmt.png">
+                <H1 class="login-header">Sign In</H1>
+            </div>
+
+            <!-- Loading Screen -->
+            <div id="loading-screen" class="loading-screen">
+              <div class="spinner"></div>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="login-pad">
+              <input type="text" id="identity" placeholder="Identity" required>
+              <input type="password" id="password" placeholder="Password" required>
+              <div id="login-message" class="login-message"></div>
+              <button type="submit">Login</button>
+            </form>
+
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script src="spinner.js"></script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPGS-MTS Dashboard</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="dashboardstyles.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo-container">
+                <img src="logo-spgsmt.png" alt="HealthPal Logo">
+            </div>
+            <!-- <a href="#"><i class="fas fa-user"></i><br/><span>Profile</span></a>
+            <a href="#"><i class="fas fa-info-circle"></i><br/><span>Health Information</span></a>
+            <a href="#"><i class="fas fa-key"></i><br/><span>Change Password</span></a> -->
+            <nav>
+                <a href="#" class="active"><i class="fas fa-home"></i><br/><span>Home</span></a>
+                <a onclick="openNewMailModal()"><i class="fas fa-edit"></i><br/><span>New mail</span></a>
+                <a onclick="openChangePasswordModal();"><i class="fas fa-cog"></i><br/><span>Password</span></a>
+                <a onclick="logout()"><i class="fas fa-sign-out-alt"></i><br/><span>Logout</span></a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="content">
+                <div class="container">
+                    <div class="profile-section">
+                        <img src="office_chair.png" alt="Profile Picture">
+                        <div class="profile-info">
+                            <h3 id='office'>Loading..</h3>
+                            <p id='owner'>Loading..</p>
+                            <!-- Other profile information here -->
+                            <!-- HTML Part for Spinner and Error Message -->
+                            <div id="logout-spinner" style="display: none;">Logging out...</div> <!-- Spinner -->
+                            <div id="logout-error-message" style="color: red; display: none;">Error: Logout failed. Please try again.</div> <!-- Error Message -->
+                        </div>
+                    </div>
+                            <!-- <div class="health-info-header stat">
+                                <img src="mails.png" /> &nbsp; &nbsp; <h3>Mails</h3>
+                            </div> -->
+
+                    <div class="card-grid">
+                        <div class="stats-section">
+                            <div class="stat-card">
+                                <h1 class="stat-number all" id="all_mails">0</h1>
+                                <p class="stat-label">All Mails</p>
+                            </div>
+                            <div class="stat-card">
+                                <h1 class="stat-number warning" id="processing_mails">0</h1>
+                                <p class="stat-label">Processing Mails</p>
+                            </div>
+                            <div class="stat-card">
+                                <h1 class="stat-number success" id="approved_mails">0</h1>
+                                <p class="stat-label">Completed Mails</p>
+                            </div>
+                            <div class="stat-card">
+                                <h1 class="stat-number danger" id="rejected_mails">0</h1>
+                                <p class="stat-label">Discarded Mails</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="health-info-header">
+                                <div class="mails-header">
+                                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                                      <img src="mails.png" alt="Mail Icon" />
+                                      <h1>All Mails</h1>
+                                    </div>
+                                    <input
+                                      type="text"
+                                      class="search-bar"
+                                      placeholder="Search by Mail ID, Title, Reference Number, or Status..."
+                                      oninput="filterMails()"
+                                    />
+                                    <div class="sort-dropdown">
+                                      <label for="sort-options">Sort by:</label>
+                                      <select id="sort-options" onchange="sortMails()">
+                                        <option value="last_modified">Last Modified</option>
+                                        <option value="mail_id">Mail ID</option>
+                                        <option value="title">Title</option>
+                                        <option value="reference_number">Reference Number</option>
+                                        <option value="status">Status</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                            </div>
+                              <table class="mails-table">
+                                <thead>
+                                  <tr>
+                                    <th>Mail ID</th>
+                                    <th>Title</th>
+                                    <th>Reference Number</th>
+                                    <th>Submitted To</th>
+                                    <th>Submitted By</th>
+                                    <th>Status</th>
+                                    <th>Last Modified</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="mails-table-body">
+                                    <tr><td colspan="7" style="text-align: center;">Loading..</td></tr>
+                                  <!-- table rows -->
+                                </tbody>
+                              </table>
+                                <!-- Modal for Viewing Full Details -->
+                              <div class="modal" id="details-modal">
+                                <div class="modal-content forgot-password-container details-width" onclick="event.stopPropagation()">
+                                  <button id="closex" style="width: 85px; padding: 8px; float: right;" onclick="closeModal()" type="submit">Close</button>
+                                  <div class="form-container">
+                                        <div class="header">
+                                            <h1 id="modal-submitted-to">Loading..</h1>
+                                            <p class="subtitle">School of Postgraduate School, Ahmadu Bello University.</p>
+                                            <h4 id="modal-title" style="text-transform: uppercase;">Loading..</h4>
+                                            <hr>
+                                        </div>
+
+                                        <div class="contact-info">
+                                            <div class="sender">
+                                                <p><strong>Submtted By:</strong>&nbsp; <i id="modal-submitted-by">Loading..</i></p>
+                                                <p><strong>Mail ID:</strong>&nbsp; <i id="modal-mail-id">Loading..</i></p>
+                                                <p><strong>Reference Number:</strong>&nbsp; <i id="modal-reference-number">Loading..</i></p>
+                                                <p><strong>Created By:</strong>&nbsp; <i id="modal-created-by">Loading..</i></p>
+                                                <p><strong>Current Location:</strong>&nbsp; <i id="modal-location">Loading..</i></p>
+                                                <p><strong>Status:</strong>&nbsp; <i id="modal-status">Loading..</i></p>
+                                                <p><strong>Last Modified:</strong>&nbsp; <i id="modal-last-modified">Loading..</i></p>
+                                            </div>
+                                            <div class="date">
+                                                <p id="modal-creation-date">Loading..</p>
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="progress-section">
+                                            <p class="signature">File Progress</p>
+                                            <div class="progress-bar-container">
+                                                <div class="progress-bar">
+                                                    <div class="progress"></div>
+                                                </div>
+                                                <div class="progress-steps"></div>
+                                            </div>
+                                        </div>
+
+                                        <hr>
+
+                                        <div class="body">
+                                            <p class="signature">This file has been forwarded to your office. Please review and take the necessary action.</p>
+                                            <!-- Message display -->
+                                            <div id="unique-detail-message" style="display: none; margin-top: 10px; color: red;"></div>
+                                            <form style="width: 100% !important; padding: 20px 0px 20px 0px; display: flex; max-width: unset;">
+                                                <!-- Loading screen -->
+                                                <div id="unique-loading-screen" class="loading-screen">
+                                                  <div class="spinner"></div> <!-- Add your spinner animation here -->
+                                                </div>
+
+                                                <select id="action-select" name="action-select" style="background-color: #e8e8e8; color: #4f4e4e;" required>
+                                                    <option value="">Select Action</option>
+                                                    <option value="received">Received</option>
+                                                    <option value="minuted">Minuted</option>
+                                                    <option value="forward">Forward</option>
+                                                    <option value="approved">Approve</option>
+                                                    <option value="rejected">Reject</option>
+                                                </select>
+                                                <input type="hidden" id="doc" name="doc">
+                                                <select id="destination-select" name="destination-select" style="margin-left: 10px; display: none;">
+                                                    <option value="">Loading..</option>
+                                                </select>
+                                                <input type="hidden" id="modal-prog" name="modal-prog">
+                                                <button type="submit" style="width: auto; padding: 15px 25px 15px 25px; margin-top: 0px; margin-bottom: 10px; margin-left: 10px;">Update</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                              <!-- Modal for New Mail -->
+                              <div class="modal" id="new-mail-modal" onclick="closeModal(event)">
+                                <div class="modal-content forgot-password-container" onclick="event.stopPropagation()">
+                                  <span class="close-modal" onclick="closeModal()">&times;</span>
+                                  <div class="form-container">
+                                    <h2>New Mail</h2>
+                                    <!-- Loading Screen -->
+                                    <div id="create-mail-loading-screen" class="loading-screen">
+                                      <div class="spinner"></div>
+                                    </div>
+                                    <!-- Create Mail Form -->
+                                    <form id="create-mail-form" style="width: 100% !important; padding: 20px 0px 20px 0px;">
+                                      <input type="text" id="title" name="title" placeholder="Mail Title" required>
+                                      <input type="text" id="reference-number" name="reference-number" placeholder="Reference Number">
+                                      <input type="text" id="submitted-by" name="submitted-by" placeholder="Submitted By" required>
+                                      <select id="submitted-to" name="submitted-to" required>
+                                        <option value="">Loading..</option>
+                                      </select>
+                                      <div id="mail-message" style="display: none; margin-top: 10px;"></div>
+                                      <button type="submit">Create Mail</button>
+                                    </form>
+
+
+
+
+                                </div>
+                                </div>
+                              </div>
+                              <!-- Modal for Change Password -->
+                              <div class="modal" id="change-password-modal" onclick="closeModal(event)">
+                                <div class="modal-content forgot-password-container" onclick="event.stopPropagation()">
+                                  <span class="close-modal" onclick="closeModal()">&times;</span>
+                                  <div class="form-container">
+                                      <h2>Change Password</h2>
+                                      <!-- Loading Screen -->
+                                        <div id="change-password-loading-screen" class="loading-screen">
+                                          <div class="spinner"></div>
+                                        </div>
+                                        <!-- Loading Screen -->
+                                        <div id="loading-screen" class="loading-screen">
+                                          <div class="spinner"></div> <!-- You can style this spinner with CSS for animations -->
+                                        </div>
+                                        <!-- Change Password Form -->
+                                        <form id="change-password-form" style="width: 100%; padding: 20px;">
+                                          <input type="password" id="current-password" name="current-password" placeholder="Current Password" required>
+                                          <input type="password" id="new-password" name="new-password" placeholder="New Password" required>
+                                          <input type="password" id="confirm-new-password" name="confirm-new-password" placeholder="Confirm New Password" required>
+                                            <!-- Error/Success Message -->
+                                            <div id="detail-message" style="display: none; margin-top: 10px;"></div>
+                                          <button type="submit">Change Password</button>
+                                          <div id="password-message" style="display: none; margin-top: 10px;"></div>
+                                        </form>
+
+                                  </div>
+                                </div>
+                              </div>
+
+
+
+                            <!-- Other tips here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+    <script src="script.js"></script>
+    <script src="spinner-dashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</html>
